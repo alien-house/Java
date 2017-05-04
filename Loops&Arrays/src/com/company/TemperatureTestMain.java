@@ -8,8 +8,12 @@ public class TemperatureTestMain {
 
     public static void main(String[] args) {
 
-        TemperatureTest temp = new TemperatureTest();
-        double tempNum = temp.average(temp.dailyTemp);
-        System.out.println( "Average weekly temperature: "+ tempNum);
+        CourseTest course = new CourseTest();
+        course.printOutArrayList();
+
+
+//        TemperatureTest temp = new TemperatureTest();
+//        double tempNum = temp.average(temp.dailyTemp);
+//        System.out.println( "Average weekly temperature: "+ tempNum);
     }
 }
