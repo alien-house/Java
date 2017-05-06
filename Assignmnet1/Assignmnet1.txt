@@ -1,0 +1,41 @@
+# Assignmnet 1
+
+## Q.01
+d) Compilation error
+
+## Q.02
+a) 5.0
+
+## Q.03
+b) 2
+
+## Q.04
+a) Public method is accessible to all other classes in the hierarchy
+
+## Q.05
+b) 200
+
+## Q.06
+d) IlikeJava
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
