@@ -15,3 +15,7 @@
 - Encapsulation
 - Abstraction
 - Interface
+
+### Handing Data
+- File I/O(Reading and Saving file)
+- Exception Handling 
