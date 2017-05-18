@@ -31,8 +31,6 @@ public class PlayListMaker {
                 str = br.readLine();
             }
             JSONObject object = (JSONObject) new JSONTokener(afStr).nextValue();
-
-//            JSONArray playlistArray = new JSONArray();
             JSONArray playlistArray =  object.getJSONArray("Playlist");
 //            Iterator x = object.keys();
 //            while (x.hasNext()){

@@ -83,4 +83,11 @@ public class CDMaker {
         CDALLList.get(num-1).getAllSongs();
     }
 
+    public JSONObject getTrackFromCD(int CDnum, int Tracknum){
+        CD cd = CDALLList.get(CDnum-1);
+        JSONObject song = cd.getSongInfo(Tracknum-1);
+        return song;
+//        CDALLList.get(num-1).getAllSongs();
+    }
+
 }

@@ -34,6 +34,9 @@ public class Song {
         return ret;
     }
 
+    public int getNo(){
+        return this.no;
+    }
     public String getTitle(){
         return this.title;
     }

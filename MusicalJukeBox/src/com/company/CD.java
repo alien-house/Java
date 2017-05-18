@@ -31,9 +31,12 @@ public class CD extends Medium {
         }
     }
 
-
-    public JSONObject getSongInfo(){
+    public JSONObject getSongInfo(int i){
         JSONObject obj = new JSONObject();
+        String nos = Integer.toString(trackList.get(i).getNo());
+        obj.put("no",nos);
+        obj.put("title",trackList.get(i).getTitle());
+        obj.put("time",trackList.get(i).getTime());
 
         return obj;
     }

@@ -16,7 +16,6 @@ public class PlayList {
     PlayList(Object tracklist){
         JSONObject object = (JSONObject) tracklist;
         this.title = object.getString("name");
-        System.out.println(this.title);
         JSONArray songArray =  object.getJSONArray("track");
         for (int i = 0; i < songArray.length(); i++) {
             JSONObject songObj = (JSONObject) songArray.get(i);
