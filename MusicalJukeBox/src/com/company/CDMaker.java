@@ -12,79 +12,45 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by shinji on 2017/05/12.
  */
 public class CDMaker {
 //    String[] cdList;
-    private List<String> cdList = new ArrayList<String>();
+    private List<String> CDStringList = new ArrayList<String>();
+    private List<CD> CDALLList = new ArrayList<CD>();
     BufferedReader br = null;
     CDMaker(String[] cdList){
-        this.cdList = Arrays.asList(cdList);
-        this.cdList.forEach(i -> makeCD(i));
+        this.CDStringList = Arrays.asList(cdList);
+        this.CDStringList.forEach(i -> makeCD(i));
     }
 
     public void makeCD(String cdName){
-//        System.out.println("😡"+cdName);
         FileInputStream fis = null;
         BufferedInputStream bis = null;
         InputStream input;
         String url = "cd/"+cdName+".json";
         try {
-//            String genreJson = IOUtils.toString(new URL(url));
-//            JSONObject json = new JSONObject(genreJson);
-//            System.out.println(CDL.toString(new JSONArray(json)));
-
-
-
-//            String url = "cd/"+cdName+".json";
-//            String genreJson = IOUtils.toString(new URL(url));
-//            JSONObject json = new JSONObject(genreJson);
-//            System.out.println("😡"+genreJson);
-
-
-//            input = new FileInputStream("cd/"+cdName+".json");
-//            int size = input.available();
-//            bis = new BufferedInputStream(input);
-//            byte[] buffer = new byte[size];
-//            input.read(buffer);
-//            input.close();
-//
-//            String json = new String(buffer);
-//            JSONObject jsonObject = new JSONObject(json);
-//            System.out.println("😡"+bis);
-
-
-
-
-
-
-
-//            FileReader fr = new FileReader("cd/"+cdName+".json");
-////            File file = new File("cd/"+cdName+".json");
-//            fis = new FileInputStream(file);
-//            bis = new BufferedInputStream(fis);
             br = new BufferedReader(new FileReader("cd/"+cdName+".json"));
             String str = br.readLine();
             String afStr = "";
             while (str != null) {
-//                System.out.println(str);
                 afStr = afStr + str;
                 str = br.readLine();
             }
-//            System.out.println("😏"+afStr);
             JSONObject object = (JSONObject) new JSONTokener(afStr).nextValue();
-            String query = object.getString("name");
-            System.out.println("😡"+query);
-//            JSONArray locations = object.getJSONArray("locations");
-//
+            String name = object.getString("name");
+            String artist = object.getString("artist");
+            double price = object.getDouble("price");
+            JSONArray tracklistarray = object.getJSONArray("track");
 
-
-
+            CD cd = new CD(name,artist,price,tracklistarray);
+            CDALLList.add(cd);
 
         } catch (IOException e) {
-//            ioe.printStackTrace();
+
         } finally {
             try {
                 if (br != null) {
@@ -99,9 +65,22 @@ public class CDMaker {
 
 
     public void getAllCDTitle(){
-        cdList.forEach(i ->
-                System.out.println("Item : " + i)
-        );
+        int i = 1;
+        for (CD cd : CDALLList) {
+            System.out.println("["+i+"]" + cd.getTitle()+" : "+cd.getArtist());
+            i++;
+        }
+        System.out.println("[0]↩︎Back to the menu");
+
+//        CDALLList.forEach(i ->
+//                System.out.println("["+a+"]" + i)
+//                a++
+//        );
+    }
+
+    public void getInfoAllTrack(int num){
+        int i = 1;
+        CDALLList.get(num-1).getAllSongs();
     }
 
 }
