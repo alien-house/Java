@@ -1,0 +1,34 @@
+{
+	"Playlist": [
+		{
+		    "name": "kokoko songs",
+		    "track": [
+		    	{
+		    		"no":"1",
+		    		"title":"First Wave",
+		    		"time":"12:14"
+		    	},
+		    	{
+		    		"no":"2",
+		    		"title":"Things arrow",
+		    		"time":"21:21"
+		    	}
+		    ]
+		},
+		{
+		    "name": "Oceans Eleven",
+		    "track": [
+		    	{
+		    		"no":"1",
+		    		"title":"Song1",
+		    		"time":"12:14"
+		    	},
+		    	{
+		    		"no":"2",
+		    		"title":"ehings",
+		    		"time":"21:21"
+		    	}
+		    ]
+		}
+	]
+}
