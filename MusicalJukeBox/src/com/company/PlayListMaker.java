@@ -15,9 +15,15 @@ import java.util.Arrays;
  * Created by shinji on 2017/05/12.
  */
 public class PlayListMaker {
-    private List<PlayList> PlayListALLList = new ArrayList<PlayList>();
+    private List<PlayList> PlayListALLList;
     BufferedReader br = null;
     PlayListMaker(){
+        reloadPlayList();
+    }
+
+    public void reloadPlayList() {
+
+        PlayListALLList = new ArrayList<PlayList>();
         FileInputStream fis = null;
         BufferedInputStream bis = null;
         InputStream input;
@@ -43,8 +49,12 @@ public class PlayListMaker {
                 PlayListALLList.add(playList);
             }
 
-        } catch (IOException e) {
-
+        } catch (org.json.JSONException e) {
+            System.out.println(e);
+//            System.out.println("You don't have any PlayList yet.");
+//            System.out.println("Please go to \"[3] Create New Playlist\"");
+        } catch (Exception e) {
+            System.out.println(e);
         } finally {
             try {
                 if (br != null) {
@@ -55,13 +65,8 @@ public class PlayListMaker {
             }
         }
 
-//        JSONObject obj = new JSONObject();
-//        JSONObject obj2 = new JSONObject();
-//        obj2.put("text","kyakyta");
-//        obj.put("name",obj2);
-//        System.out.print(obj.toString());
-
     }
+
 
     public void getAllPlayListTitle() {
         int i = 1;
@@ -76,4 +81,14 @@ public class PlayListMaker {
         int i = 1;
         PlayListALLList.get(num-1).getAllSongs();
     }
+
+
+    public JSONObject getTrackFromPL(int PLnum, int Tracknum){
+        PlayList playList = PlayListALLList.get(PLnum-1);
+        JSONObject song = playList.getSongInfo(Tracknum-1);
+        return song;
+//        CDALLList.get(num-1).getAllSongs();
+    }
+
+
 }

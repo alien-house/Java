@@ -24,7 +24,7 @@ public class CD extends Medium {
 
     public void getAllSongs(){
         int i = 1;
-        System.out.println(this.title + " : " +this.artist);
+        System.out.println("💿"+this.title + " : " +this.artist);
         for (Song song : trackList) {
             System.out.println("["+i+"]" + song.getTitle() + "(" + song.getTime()+ ")");
             i++;

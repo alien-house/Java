@@ -23,20 +23,6 @@ public class PlayList {
             trackList.add(song);
         }
 
-
-
-
-
-//        for (int i = 0; i < tracklist.length(); i++) {
-//            JSONObject object = (JSONObject) tracklist.get(i);
-//            this.title = object.getString("name");
-//            JSONArray songArray =  object.getJSONArray("track");
-//            for (int a = 0; a < songArray.length(); a++) {
-//                JSONObject songObj = (JSONObject) songArray.get(a);
-//                Song song = new Song(songObj.getInt("no"),songObj.getString("title"),songObj.getString("time"));
-//                trackList.add(song);
-//            }
-//        }
     }
 
     public void getAllSongs(){
@@ -51,4 +37,13 @@ public class PlayList {
         return this.title;
     }
 
+    public JSONObject getSongInfo(int i){
+        JSONObject obj = new JSONObject();
+        String nos = Integer.toString(trackList.get(i).getNo());
+        obj.put("no",nos);
+        obj.put("title",trackList.get(i).getTitle());
+        obj.put("time",trackList.get(i).getTime());
+
+        return obj;
+    }
 }
