@@ -21,17 +21,5 @@ public class Main {
 
     }
 
-    public static String getStringTime(int seconds) {
-        String sign = seconds >= 0 ? "" : "-";
-        int min = Math.abs(seconds / 60);
-        int sec = Math.abs(seconds % 60);
-        String separater = ":";
-        String ret =
-                sign
-                        + new DecimalFormat("00").format(min)
-                        + separater
-                        + new DecimalFormat("00").format(sec);
-        return ret;
-    }
 
 }

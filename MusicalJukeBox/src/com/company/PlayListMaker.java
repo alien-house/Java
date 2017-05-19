@@ -17,7 +17,11 @@ import java.util.Arrays;
 public class PlayListMaker {
     private List<PlayList> PlayListALLList;
     BufferedReader br = null;
-    PlayListMaker(){
+    String JSONPATH = "Playlist.json";
+    JSONObject object;
+    JSONArray playlistArray;
+
+    PlayListMaker() {
         reloadPlayList();
     }
 
@@ -27,22 +31,16 @@ public class PlayListMaker {
         FileInputStream fis = null;
         BufferedInputStream bis = null;
         InputStream input;
-        String url = "Playlist.json";
         try {
-            br = new BufferedReader(new FileReader(url));
+            br = new BufferedReader(new FileReader(JSONPATH));
             String str = br.readLine();
             String afStr = "";
             while (str != null) {
                 afStr = afStr + str;
                 str = br.readLine();
             }
-            JSONObject object = (JSONObject) new JSONTokener(afStr).nextValue();
-            JSONArray playlistArray =  object.getJSONArray("Playlist");
-//            Iterator x = object.keys();
-//            while (x.hasNext()){
-//                String key = (String) x.next();
-//                playlistArray.put(object.get(key));
-//            }
+            object = (JSONObject) new JSONTokener(afStr).nextValue();
+            playlistArray = object.getJSONArray("Playlist");
 
             for (int i = 0; i < playlistArray.length(); i++) {
                 PlayList playList = new PlayList(playlistArray.get(i));
@@ -68,27 +66,61 @@ public class PlayListMaker {
     }
 
 
+    // get all playlist title
     public void getAllPlayListTitle() {
         int i = 1;
         for (PlayList pl : PlayListALLList) {
             System.out.println("[" + i + "]" + pl.getTitle());
             i++;
         }
-        System.out.println("[0]↩Back to the menu");
     }
 
-    public void getInfoAllTrack(int num){
+    // get all track information
+    public void getInfoAllTrack(int num) {
         int i = 1;
-        PlayListALLList.get(num-1).getAllSongs();
+        PlayListALLList.get(num - 1).getAllSongs();
     }
 
-
-    public JSONObject getTrackFromPL(int PLnum, int Tracknum){
-        PlayList playList = PlayListALLList.get(PLnum-1);
-        JSONObject song = playList.getSongInfo(Tracknum-1);
+    // get single track information
+    public JSONObject getTrackFromPL(int PLnum, int Tracknum) {
+        PlayList playList = PlayListALLList.get(PLnum - 1);
+        JSONObject song = playList.getSongInfo(Tracknum - 1);
         return song;
-//        CDALLList.get(num-1).getAllSongs();
     }
 
+
+    public void removePlaylist() {
+
+    }
+
+
+    public void removeTrack(int plNum, int trackNum) {
+
+        BufferedWriter bw = null;
+        BufferedReader br = null;
+        try {
+            File myPLJson = new File(JSONPATH);
+            FileWriter fw = new FileWriter(myPLJson);
+            bw = new BufferedWriter(fw);
+
+            JSONObject userSeletedPL = playlistArray.getJSONObject(plNum - 1);
+            JSONArray trackArray = userSeletedPL.getJSONArray("track");
+            trackArray.remove(trackNum - 1);//delete
+            object.put("Playlist", playlistArray);
+            bw.write(object.toString());
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (bw != null) {
+                    bw.close();
+                }
+                if (br != null) {
+                    br.close();
+                }
+            } catch (Exception ex) {
+                System.out.println("Error in closing the BufferedWriter" + ex);
+            }
+        }
+    }
 
 }

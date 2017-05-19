@@ -70,7 +70,6 @@ public class CDMaker {
             System.out.println("["+i+"]" + cd.getTitle()+" : "+cd.getArtist());
             i++;
         }
-        System.out.println("[0]↩︎Back to the menu");
 
 //        CDALLList.forEach(i ->
 //                System.out.println("["+a+"]" + i)
@@ -81,7 +80,6 @@ public class CDMaker {
     public void getInfoAllTrack(int num){
         int i = 1;
         CDALLList.get(num-1).getAllSongs();
-        System.out.println("[0]↩︎Back to selecting CDs");
     }
 
     public JSONObject getTrackFromCD(int CDnum, int Tracknum){

@@ -19,7 +19,7 @@ public class Menu {
         while (isLock) {
             System.out.println("::::::::::::::::::::::MENU::::::::::::::::::::::");
             System.out.println("[1] List All CDs");
-            System.out.println("[2] List All Your PlayListMaker(and edit)");
+            System.out.println("[2] List All Your PlayList (play and edit)");
             System.out.println("[3] Create New Playlist");
             System.out.println("[4] Exit");
             System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::");
@@ -62,6 +62,8 @@ public class Menu {
             System.out.println("\"Which CD do you want to see in detail?\"");
             System.out.println("===============================================");
             allCDs.getAllCDTitle();
+            System.out.println("...............................................");
+            System.out.println("[0]↩︎Back to the menu");
             Scanner listus = new Scanner(System.in);
             if (listus.hasNextInt()) {
                 int num = listus.nextInt();
@@ -84,6 +86,8 @@ public class Menu {
             System.out.println("\"Which track do you want to listen?\"");
             System.out.println("===============================================");
             allCDs.getInfoAllTrack(num);
+            System.out.println("...............................................");
+            System.out.println("[0]↩︎Back to selecting CDs");
             Scanner listus = new Scanner(System.in);
             if (listus.hasNextInt()) {
                 int numInt = listus.nextInt();
@@ -114,8 +118,9 @@ public class Menu {
             System.out.println("\"Which PlayList do you want to see in detail?\"");
             System.out.println("===============================================");
             myPlayListMaker.getAllPlayListTitle();
+            System.out.println("...............................................");
+            System.out.println("[0]↩Back to the menu");
             Scanner listus = new Scanner(System.in);
-
             if (listus.hasNextInt()) {
                 int num = listus.nextInt();
                 switch (num) {
@@ -138,7 +143,8 @@ public class Menu {
             System.out.println("\"Which track you going to choose?\"");
             System.out.println("===============================================");
             myPlayListMaker.getInfoAllTrack(num);
-            System.out.println("[01]Delete this Playlist");
+            System.out.println("...............................................");
+            System.out.println("[#]Delete this Playlist");
             System.out.println("[0]↩︎Back to selecting PlayLists");
             Scanner listus = new Scanner(System.in);
             if (listus.hasNextInt()) {
@@ -147,13 +153,62 @@ public class Menu {
                     case 0:
                         isLockPSM = false;
                         break;
-                    case 01:
-                        System.out.println("ALL Deletedddddd");
-
-                        break;
                     default:
                         playListSongFeatureMenu(myPlayListMaker,num,numInt);
                         break;
+                }
+            }else{
+                String sChar = listus.next();
+                if(sChar.equals("#")){
+
+                    System.out.println("It's deleted.");
+
+                    BufferedWriter bw = null;
+                    BufferedReader br = null;
+                    try {
+                        JSONObject obj = new JSONObject();
+                        JSONArray playlistArray = new JSONArray();
+                        File myPLJson = new File(JSONPATH);
+                        if (!myPLJson.exists()) {
+                            myPLJson.createNewFile();
+                        }
+                        //READ JSON
+                        br = new BufferedReader(new FileReader(JSONPATH));
+                        String str = br.readLine();
+                        String afStr = "";
+                        while (str != null) {
+                            afStr = afStr + str;
+                            str = br.readLine();
+                        }
+                        if(!afStr.isEmpty()){
+                            JSONObject object = (JSONObject) new JSONTokener(afStr).nextValue();
+                            playlistArray =  object.getJSONArray("Playlist");
+                        }
+                        //
+                        FileWriter fw = new FileWriter(myPLJson);
+                        bw = new BufferedWriter(fw);
+
+                        playlistArray.remove(num-1);
+                        obj.put("Playlist",playlistArray);
+                        bw.write(obj.toString());
+
+                    }catch (Exception e){
+
+                    }finally {
+                        try {
+                            if (bw != null) {
+                                bw.close();
+                            }
+                            if (br != null) {
+                                br.close();
+                            }
+                            isLockPSM = false;
+                            myPlayListMaker.reloadPlayList();
+                        } catch (Exception ex) {
+                            System.out.println("Error in closing the BufferedWriter" + ex);
+                        }
+                    }
+
                 }
             }
         }
@@ -169,6 +224,7 @@ public class Menu {
 //            myPlayListMaker.getInfoAllTrack(num);
             System.out.println("[1]︎Play");
             System.out.println("[2]Delete from the Playlist");
+            System.out.println("...............................................");
             System.out.println("[0]↩︎Back to the PlayList");
             Scanner listus = new Scanner(System.in);
             if (listus.hasNextInt()) {
@@ -180,7 +236,7 @@ public class Menu {
                         System.out.println("");
                         break;
                     case 2:
-                        deleteTrackFromPlaylist(plNum, trackNum);
+                        myPlayListMaker.removeTrack(plNum, trackNum);
                         myPlayListMaker.reloadPlayList();
                         isLockPSM = false;
                         break;
@@ -194,57 +250,6 @@ public class Menu {
             }
         }
     }
-
-    public void deleteTrackFromPlaylist(int plNum,int trackNum){
-
-        BufferedWriter bw = null;
-        BufferedReader br = null;
-        try {
-            JSONObject obj = new JSONObject();
-            JSONArray playlistArray = new JSONArray();
-            File myPLJson = new File(JSONPATH);
-            if (!myPLJson.exists()) {
-                myPLJson.createNewFile();
-            }
-            //READ JSON
-            br = new BufferedReader(new FileReader(JSONPATH));
-            String str = br.readLine();
-            String afStr = "";
-            while (str != null) {
-                afStr = afStr + str;
-                str = br.readLine();
-            }
-            if(!afStr.isEmpty()){
-                JSONObject object = (JSONObject) new JSONTokener(afStr).nextValue();
-                playlistArray =  object.getJSONArray("Playlist");
-            }
-            //
-            FileWriter fw = new FileWriter(myPLJson);
-            bw = new BufferedWriter(fw);
-
-            JSONObject userSeletedPL = playlistArray.getJSONObject(plNum-1);
-            JSONArray trackArray =  userSeletedPL.getJSONArray("track");
-            trackArray.remove(trackNum-1);//delete
-            obj.put("Playlist",playlistArray);
-            bw.write(obj.toString());
-
-        }catch (Exception e){
-
-        }finally {
-            try {
-                if (bw != null) {
-                    bw.close();
-                }
-                if (br != null) {
-                    br.close();
-                }
-            } catch (Exception ex) {
-                System.out.println("Error in closing the BufferedWriter" + ex);
-            }
-        }
-
-    }
-
 
     /* =============================================== */
 
@@ -301,7 +306,7 @@ public class Menu {
                         System.out.println("===============================================");
                         Scanner listus = new Scanner(System.in);
                         if (listus.hasNextLine()) {
-                            namePlayList = listus.next();
+                            namePlayList = listus.nextLine();
                             tracks.put("name", namePlayList);
                             flow = 2;
                         }else{
@@ -313,7 +318,10 @@ public class Menu {
                             System.out.println("===============================================");
                             System.out.println("\"Which CD do you want to see for adding your Playlist?\"");
                             System.out.println("===============================================");
+                            System.out.println("Your PlayList is \""+namePlayList+"\"");
                             allCDs.getAllCDTitle();
+                            System.out.println("...............................................");
+                            System.out.println("[0]↩︎Save and Back to the Menu");
                             Scanner cdsan = new Scanner(System.in);
                             if (cdsan.hasNextInt()) {
                                 int num = cdsan.nextInt();
@@ -323,6 +331,7 @@ public class Menu {
                                         playlistArray.put(tracks);
                                         obj.put("Playlist",playlistArray);
                                         bw.write(obj.toString());
+                                        System.out.println("Your new Playlist has created!");
                                         isLockCho = false;
                                         flow = 0; // finished
                                         break;
@@ -331,7 +340,7 @@ public class Menu {
                                         boolean isLockChoSong = true;
                                         while (isLockChoSong) {
                                             System.out.println("===============================================");
-                                            System.out.println("\"Which song do you want to add your Playlist?\"");
+                                            System.out.println("\"Which track do you want to add your Playlist?\"");
                                             System.out.println("===============================================");
                                             Scanner n = new Scanner(System.in);
                                             //then, num is CD's number
@@ -343,7 +352,7 @@ public class Menu {
                                                         break;
                                                     default:
                                                         track.put(allCDs.getTrackFromCD(num, ns));
-                                                        System.out.println("tracks::"+track);
+                                                        System.out.println("It's added!");
                                                         break;
                                                 }
                                             }
