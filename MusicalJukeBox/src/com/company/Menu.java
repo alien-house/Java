@@ -162,52 +162,8 @@ public class Menu {
                 if(sChar.equals("#")){
 
                     System.out.println("It's deleted.");
-
-                    BufferedWriter bw = null;
-                    BufferedReader br = null;
-                    try {
-                        JSONObject obj = new JSONObject();
-                        JSONArray playlistArray = new JSONArray();
-                        File myPLJson = new File(JSONPATH);
-                        if (!myPLJson.exists()) {
-                            myPLJson.createNewFile();
-                        }
-                        //READ JSON
-                        br = new BufferedReader(new FileReader(JSONPATH));
-                        String str = br.readLine();
-                        String afStr = "";
-                        while (str != null) {
-                            afStr = afStr + str;
-                            str = br.readLine();
-                        }
-                        if(!afStr.isEmpty()){
-                            JSONObject object = (JSONObject) new JSONTokener(afStr).nextValue();
-                            playlistArray =  object.getJSONArray("Playlist");
-                        }
-                        //
-                        FileWriter fw = new FileWriter(myPLJson);
-                        bw = new BufferedWriter(fw);
-
-                        playlistArray.remove(num-1);
-                        obj.put("Playlist",playlistArray);
-                        bw.write(obj.toString());
-
-                    }catch (Exception e){
-
-                    }finally {
-                        try {
-                            if (bw != null) {
-                                bw.close();
-                            }
-                            if (br != null) {
-                                br.close();
-                            }
-                            isLockPSM = false;
-                            myPlayListMaker.reloadPlayList();
-                        } catch (Exception ex) {
-                            System.out.println("Error in closing the BufferedWriter" + ex);
-                        }
-                    }
+                    Boolean isLockFromPL = myPlayListMaker.removePlaylist(num);
+                    isLockPSM = isLockFromPL;
 
                 }
             }

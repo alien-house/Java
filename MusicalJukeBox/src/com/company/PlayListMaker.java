@@ -18,6 +18,7 @@ public class PlayListMaker {
     private List<PlayList> PlayListALLList;
     BufferedReader br = null;
     String JSONPATH = "Playlist.json";
+    File myPLJson = new File(JSONPATH);
     JSONObject object;
     JSONArray playlistArray;
 
@@ -89,17 +90,37 @@ public class PlayListMaker {
     }
 
 
-    public void removePlaylist() {
+    public Boolean removePlaylist(int num) {
+        Boolean isPass = true;
+        BufferedWriter bw = null;
+        try {
+            FileWriter fw = new FileWriter(myPLJson);
+            bw = new BufferedWriter(fw);
+            playlistArray.remove(num-1);
+            object.put("Playlist",playlistArray);
+            bw.write(object.toString());
 
+        }catch (Exception e){
+
+        }finally {
+            try {
+                if (bw != null) {
+                    bw.close();
+                }
+                this.reloadPlayList();
+                isPass = false;
+            } catch (Exception ex) {
+                System.out.println("Error in closing the BufferedWriter" + ex);
+            }
+        }
+        return isPass;
     }
 
 
     public void removeTrack(int plNum, int trackNum) {
 
         BufferedWriter bw = null;
-        BufferedReader br = null;
         try {
-            File myPLJson = new File(JSONPATH);
             FileWriter fw = new FileWriter(myPLJson);
             bw = new BufferedWriter(fw);
 
@@ -113,9 +134,6 @@ public class PlayListMaker {
             try {
                 if (bw != null) {
                     bw.close();
-                }
-                if (br != null) {
-                    br.close();
                 }
             } catch (Exception ex) {
                 System.out.println("Error in closing the BufferedWriter" + ex);
