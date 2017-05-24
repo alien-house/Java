@@ -1,0 +1,16 @@
+a. Create a list. simply delete the third position element from the list until its empty()
+b. modify programm a as given. suppose you have list of seven elements 
+e.g. 1 2 3 4 5 6 7
+remove third element from the lst.the first element to be removed 
+would be 3 , leaving the list 
+1 2 4 5 6 7
+the next element to be remove would be 6 leaving the list
+1 2 4 5 7
+its a continous cycle so when we reach end of the list, we continue
+to count at beginning . next element to be removed is number 2 leaving
+the list as
+1 4 5 7
+next element to be remove is 7
+1 4 5
+next element to be remove is 5
+1 4
