@@ -41,15 +41,14 @@ public class SearchingRecursive {
             return -1;
         }else{
             int mid = (min + max) / 2;
+            System.out.println("@@"+mid);
             
-            if(target.equals(a[mid])){
-                return binarySearch(a, target, mid + 1, max);
-            }
-//            else if(a[mid] > target){
-//                return binarySearch(a, target, min, mid - 1);
-//            }
-            else{
+            if(a[mid].equals(target)){
                 return mid;
+            }else if(a[mid].compareTo(target) > 0) {
+                return binarySearch(a, target, min, mid - 1);
+            } else {
+                return binarySearch(a, target, mid + 1, max);
             }
         }
     }

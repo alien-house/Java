@@ -13,11 +13,11 @@ public class linearSearchOld {
     static final int NONE = -1;
     
     public linearSearchOld() {
-      
     }
     
     public int linearSearch(int target, int[] a) {
         for (int p = 0; p < a.length; p++) {
+//            System.out.println("linear:"+p);
             if (target == a[p]) return p;
         }
        return NONE;
@@ -38,7 +38,4 @@ public class linearSearchOld {
     }
 
 
-    
-    
-    
 }

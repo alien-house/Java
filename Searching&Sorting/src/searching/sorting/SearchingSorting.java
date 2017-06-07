@@ -5,6 +5,8 @@
  */
 package searching.sorting;
 
+import java.util.Arrays;
+
 /**
  *
  * @author shinji
@@ -25,9 +27,9 @@ public class SearchingSorting {
         
         
         String[] stringArray = new String[] {
-            "oka","higashi","sato","sora","shio"
+            "tonkotsu","miso","shoyu","sora","shio"
         };
-        int so = ls.linearSearch("sato",stringArray);
+        int so = ls.linearSearch("shoyu",stringArray);
         System.out.println("linear Search : stringArray =======================");
         System.out.println(so);
         
@@ -45,8 +47,17 @@ public class SearchingSorting {
         System.out.println("binary Search : intArray =======================");
         System.out.println(sso);
 //        boolean sso2 = ss.binarySearch(intArray, 0, intArray.length, 121);
-//        System.out.println("binary Search : intArray =======================");
-//        System.out.println(sso2);
+
+        Student s = new Student(2);
+        Student s2 = new Student(21);
+        Student[] StudentArray = new Student[] {s2,s,new Student(212)};
+        Comparable [ ] a = new Student [ 2 ];
+        a = StudentArray;
+        Comparable t = new Student(21);
+        int x = SortingandSearching.binarySearch(a, 0, 2, t);
+        System.out.println("binary Search(generic) : StudentArray =======================");
+        System.out.println(x);
+        
         
         
         SearchingRecursive sr = new SearchingRecursive();
@@ -55,14 +66,20 @@ public class SearchingSorting {
         System.out.println(sro);
         
         
-        int srso = sr.binarySearch(stringArray, "sato");
+        
         System.out.println("binary Search(Recursive) : stringArray ==============");
+        String[] stringArray2 = new String[] {
+            "tonkotsu","miso","shoyu","sora","shio"
+        };
+        Arrays.sort(stringArray2);//miso,shio,shoyu,sora,tonkotsu
+        for(String i:stringArray2){
+            System.out.println(i);
+        };
+        int srso = sr.binarySearch(stringArray2, "miso");
         System.out.println(srso);
         
-        
-        
-        
-        
     }
+    
+    
     
 }
