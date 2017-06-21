@@ -23,7 +23,68 @@ public class Searching {
     static final int NUMMAX = 10000000;
     public static void main(String[] args) {
         
+        Integer int2 = 2;
+        Integer int3 = 33;
+        int2.compareTo(int3);
+        System.out.println(int2.compareTo(int3));
         
+        String str1 = "Strings are immutable";
+        String str4 = "Strings are immutable";
+        String str2 = new String("Strings are immutable");
+        String str3 = new String("Strings are immutable");
+        int result = str1.compareTo( str2 );
+        System.out.println(result);
+
+        result = str2.compareTo( str3 );
+        System.out.println(result);
+        
+        
+        // ==================
+//        normallinearSearch();
+        // ==================
+        
+//        String[] stringArrRandom = new String[NUMMAX];
+//        int[] intArrRandom = new int[NUMMAX];
+//        for(int i = 0; i < NUMMAX; i++){
+//            int t = (int)(Math.floor(Math.random() * (NUMMAX - 1)) + 1);
+////            stringArrRandom[i] = String.valueOf(t);
+//            intArrRandom[i] = t;
+////            System.out.println(t);
+//        }
+//        
+//        Instant ss3 = Instant.now();
+////        boolean num3 = linearSearch(stringArrRandom,0,stringArrRandom.length-1,"9");
+//        Instant es3 = Instant.now();
+////        System.out.print(num3 + ":");
+////        System.out.println(Duration.between(ss3, es3));
+////        
+        
+        Integer[] intArr = new Integer[NUMMAX];
+        for(int i = 0; i < NUMMAX; i++){
+            intArr[i] = new Integer(i);
+//            System.out.println(t);
+        }
+        Instant ss4 = Instant.now();
+        
+        boolean t = SearchingRecursiveGeneric.binarySearch(intArr, new Integer(32));
+        System.out.print(t + ":");
+//        int num4 = binarySearch( intArr, 1090000);
+//        int num4 = linearSearch( 1090000, intArr );
+        
+        Instant es4 = Instant.now();
+//        System.out.print(num4 + ":");
+        System.out.println(Duration.between(ss4, es4));
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    static void normallinearSearch(){
+    
         int[] intArrRandom = new int[NUMMAX];
         for(int i = 0; i < NUMMAX; i++){
             double t = Math.floor(Math.random() * (NUMMAX - 1)) + 1;
@@ -50,26 +111,19 @@ public class Searching {
         System.out.print(num2 + ":");
         System.out.println(Duration.between(ss2, es2));
         
-        // ==================
-        
-        
+    
         String[] stringArrRandom = new String[NUMMAX];
         for(int i = 0; i < NUMMAX; i++){
             double t = Math.floor(Math.random() * (NUMMAX - 1)) + 1;
             stringArrRandom[i] = String.valueOf(t);
 //            System.out.println(t);
         }
-        
         Instant ss3 = Instant.now();
-        int num3 = linearSearch("9", stringArrRandom);
+        int num4 = linearSearch("9", stringArrRandom);
         Instant es3 = Instant.now();
-        System.out.print(num3 + ":");
+        System.out.print(num4 + ":");
         System.out.println(Duration.between(ss3, es3));
-        
-        
-        
     }
-    
     
     
     /*
@@ -110,7 +164,7 @@ public class Searching {
     //linear Searrch
     /*
     */
-    static <T extends Comparable<T>> boolean linearSearrch(T[] data, int min, int max, T target){
+    static <T extends Comparable<T>> boolean linearSearch(T[] data, int min, int max, T target){
         int index = min;
         boolean found = false;
         while(!found && index <= max){
@@ -126,6 +180,7 @@ public class Searching {
         リニアサーチより高速であるがデータを必ずソートしなければならない
     */
     static int binarySearch(int[] a, int target){
+//        System.out.print(target + ":");
         int min = 0;
         int max = a.length - 1;
         while(min <= max){
